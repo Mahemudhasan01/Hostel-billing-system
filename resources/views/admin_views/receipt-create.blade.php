@@ -203,9 +203,6 @@
                     <th>
                         <h4>Price</h4>
                     </th>
-                    <th width="300">
-                        <h4>Discount</h4>
-                    </th>
                     <th>
                         <h4>Sub Total</h4>
                     </th>
@@ -241,12 +238,6 @@
                         </div>
                     </td>
                     <td class="text-right">
-                        <div class="form-group form-group-sm  no-margin-bottom">
-                            <input type="text" class="form-control calculate" name="invoice_product_discount[]"
-                                placeholder="Enter % OR value (ex: 10% or 10.50)">
-                        </div>
-                    </td>
-                    <td class="text-right">
                         <div class="input-group input-group-sm">
                             <span class="input-group-addon"></span>
                             <input type="text" class="form-control invoice_product_price" name="invoice_product_sub[]"
@@ -264,7 +255,7 @@
             </div>
             <div class="col-xs-6 margin-top btn-group">
                 {{-- id="action_create_invoice" data-loading-text="Creating..." --}}
-                <input type="submit" class="btn btn-success float-right" value="Create Invoice">
+                <input type="submit" class="btn btn-success float-right" value="Create Reciept">
             </div>
         </div>
         <div class="row">

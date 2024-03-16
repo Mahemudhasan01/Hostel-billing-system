@@ -18,16 +18,20 @@
 		    	
 		 	</div>
 		  	<div class="panel-body">
-		    	<form accept-charset="UTF-8" action="{{route('show.deshboard')}}" role="form" method="post" id="login_form">
+		    	<form accept-charset="UTF-8" action="{{route('submit.login')}}" role="form" method="post" id="login_form">
+					@csrf
+					@foreach ($errors->all() as $error)
+						<li style="color: red; font-weight: bold;">{{ $error }}</li>
+					@endforeach
 		    		<input type="hidden" name="action" value="login">
 	                <fieldset>
 			    	  	<div class="input-group form-group">
 			    	  		<div class="input-group-addon"><i class="glyphicon glyphicon-user"></i></div>
-			    		    <input class="form-control required" name="username" id="username" type="text" placeholder="Enter Username">
+			    		    <input class="form-control required" name="username" id="username" type="text" placeholder="Enter Username" required>
 			    		</div>
 			    		<div class="input-group form-group">
 			    		 	<div class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></div>
-			    			<input class="form-control required" placeholder="Password" name="password" type="password" placeholder="Enter Password">
+			    			<input class="form-control required"  placeholder="Password" name="password" type="password" placeholder="Enter Password" required>
 			    		</div>
 			    		<div class="checkbox">
 			    	    	<label>

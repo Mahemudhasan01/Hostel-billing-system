@@ -21,10 +21,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin_views.dashboard');
 });
+Route::get("/",[adminController::class, 'showLogin'])->name('show.login');
+Route::post("/submitLogin", [adminController::class, 'submitLogin'])->name("submit.login");
+Route::get("/logout", [adminController::class, 'logout'])->name("logout");
 // Addmin Controller
-Route::group(['prefix' => '/'], function(){
-    Route::get("login/",[adminController::class, 'showLogin'])->name('show.login');
-    Route::get("/",[adminController::class, 'showDeshboard'])->name('show.deshboard');
+Route::group(['middleware' => 'checksession', 'prefix' => '/'], function(){
+    Route::get("/deshboard",[adminController::class, 'showDeshboard'])->name('show.deshboard');
     Route::get("paidreceipt/",[adminController::class, 'showPaidReceipt'])->name('show.paid.receipt');
     Route::get("receipt/", [adminController::class, 'showAllReceipts'])->name('show.all.receipt');
     // Room's Route
@@ -34,7 +36,7 @@ Route::group(['prefix' => '/'], function(){
 });
 
 //Student Controller
-Route::group(['prefix' => '/admin'], function(){
+Route::group(['middleware' => 'checksession', 'prefix' => '/admin'], function(){
     // Student Route
     Route::post('addstudent/', [StudentController::class, 'addStudent'])->name('add.student');
     // Route::get('students/', [StudentController::class, 'showStudentList'])->name('show.student.list');

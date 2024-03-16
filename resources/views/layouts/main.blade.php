@@ -1,6 +1,6 @@
-@include('dashboard.layouts.header')
+@include('layouts.header')
 
 @yield('main-container')
 
-@include('dashboard.layouts.footer')
+@include('layouts.footer')
     

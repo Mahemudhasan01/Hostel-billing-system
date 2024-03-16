@@ -72,14 +72,14 @@
                             <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
-                                <img width="150px" src="{{asset("images/1686740015.jpg")}}"" class="user-image"
+                                <img width="150px" src="{{asset("images/1686740015.jpg")}}" class="user-image"
                                     alt="User Image">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- Drop down list-->
-                                <li><a href="logout.php" class="btn btn-default btn-flat">Log out</a></li>
+                                <li><a href="{{route("logout")}}" class="btn btn-default btn-flat">Log out</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -107,7 +107,7 @@
                     </li>
                     <!-- Menu 1 -->
                     <li class="treeview">
-                        <a href="{{ route('show.all.receipt') }}"><i class="fa fa-file-text"></i> <span>Receipt</span>
+                        <a href="#"><i class="fa fa-file-text"></i> <span>Receipt</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>

@@ -65,7 +65,7 @@ class ReceiptController extends Controller
         } else {
             $num++;
         }
-
+        
         return view('admin_views.receipt-create', ['students' => $existingStd, 'existingRooms' => $existingRooms, 'receiptNumber' => $num]);
     }
 
@@ -148,6 +148,7 @@ class ReceiptController extends Controller
 
             $data = date("d/m/Y");
 
+            // dd($request->end_month);
 
             $pdf = Pdf::loadView('admin_views.receiptPdf', [
                 'name' => $request->student_name,
@@ -163,7 +164,7 @@ class ReceiptController extends Controller
                 'fees' => $request->room_fees,
                 'total_paid' => ($total_month * $request->room_fees),
             ]);
-            return $pdf->download($request->room_name . '-' . $request->student_name . '-' .$request->invoice_id . '.pdf');
+            return $pdf->download($request->room_name . '' . $request->student_name . '-' .$request->invoice_id . '.pdf');
 
             // return redirect()->back()->with('sucess', 'Receipt Create Successfuly');
         }

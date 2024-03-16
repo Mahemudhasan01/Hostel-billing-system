@@ -7,7 +7,7 @@
 
 body {
   padding: 0;
-  /* background-color: #00a65a; */
+  background-color: #00a65a;
 }
 
 .btn-primary {
@@ -168,32 +168,3 @@ strong.shipping {
 .login-form {
   margin-top: 100px;
 }
-
-.wrapper {
-  padding: 10px;
-}
-
-.image--cover {
-  margin-left: 25%;
-  width: 120px;
-  height: 110px;
-  border-radius: 0%;
-  object-fit: cover;
-  object-position: center right;
-}
-
-/* Receipt Style */
-.container{
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  /* column-gap: 0px; */
-}
-.receipt-image {
-  max-width: 25%;
-  max-height: 15%;
-}
-
-.receipt-text{
-  padding-left: 0%;
-}
-
