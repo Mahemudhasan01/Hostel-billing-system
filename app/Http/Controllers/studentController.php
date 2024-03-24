@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
-    function addStudent(Request $request)
+    function addStudent($sid, $isEmp =0 , Request $request)
     {
-
+        dd($isEmp);
         $mes = Validator::make(
             $request->all(),
             [
@@ -25,54 +25,91 @@ class StudentController extends Controller
                 'joining_date' => 'required',
                 'father_phone' => 'required | numeric',
                 'phone' => 'required| numeric| min:10',
-                'photo' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+                'photo' => 'image|mimes:png,jpg,jpeg|max:2048',
             ]
 
         );
         // dd($mes);
         if ($mes->fails()) {
             // Failed
-            return back()->with('errors', $mes->errors());
+            return back()->with('error', 'Please fill all required field!.');
         } else {
-            // Pass
-            $imageName = time() . '.' . $request->photo->extension();
+            // dd($sid);
+            if($sid != 0){
+                // Pass  
+                if($request->hasFile('photo')){
+                    $imageName = time() . '.' . $request->photo->extension();
+                    // Public Folder
+                    $photo = $request->photo->move('images', $imageName);
+                }else{
+                    $photo = $request->oldPhoto;
+                }
 
-            // Public Folder
-            $photo = $request->photo->move('images', $imageName);
-            // dd($photo);
-            // //Store in Storage Folder
-            // $request->image->storeAs('images', $imageName);
+                DB::table('students')
+                    ->where("id", "=", $sid)
+                    ->update([
+                    'reciept' => "Null",
+                    'photo' => $photo,
+                    'name' => $request->name,
+                    'fees_status' => "Unpaid",
+                    'phone' => $request->phone,
+                    'father_phone' => $request->father_phone,
+                    'joining_date' => $request->joining_date,
+                    'villege' => $request->villege,
+                    'district' => $request->district,
+                    'town' => $request->taluka,
+                    'postcode' => $request->postcode,
+                    'status' => $request->status ? $request->status : "Guest",
+                    'last_exam' => $request->last_exam ? $request->last_exam : "Null",
+                    // 'father_name' => $request->last_exam,
+                    'current_college_year' => $request->current_college_year ? $request->current_college_year: "Null",
+                    'college_name' => $request->college_name ? $request->college_name : "Null",
+                    'college_address' => $request->college_address ? $request->college_address : "Null",
+                    'created_at' => date('Y-m-d'),
+                ]);
 
-            // // Store in S3
-            // $request->image->storeAs('images', $imageName, 's3');
+                return redirect()->route("show.manage.student")->with('success', 'Student update successfully!');
+            }else{
+                if($request->hasFile('photo')){
+                    $imageName = time() . '.' . $request->photo->extension();
+                    // Public Folder
+                    $photo = $request->photo->move('images', $imageName);
+                }else{
+                    $photo = "";
+                }
 
-            DB::table('students')->insert([
-                'reciept' => 1,
-                'photo' => $photo,
-                'name' => $request->name,
-                'fees_status' => "Unpaid",
-                'phone' => $request->phone,
-                'father_phone' => $request->father_phone,
-                'joining_date' => $request->joining_date,
-                'villege' => $request->villege,
-                'district' => $request->district,
-                'town' => $request->taluka,
-                'postcode' => $request->postcode,
-                'status' => $request->status,
-                'last_exam' => $request->last_exam,
-                // 'father_name' => $request->last_exam,
-                'current_college_year' => $request->current_college_year,
-                'college_name' => $request->college_name,
-                'college_address' => $request->college_address,
-                'created_at' => date('Y-m-d'),
-            ]);
+                DB::table('students')->insert([
+                    'reciept' => "Null",
+                    'photo' => $photo,
+                    'name' => $request->name,
+                    'fees_status' => "Unpaid",
+                    'phone' => $request->phone,
+                    'father_phone' => $request->father_phone,
+                    'joining_date' => $request->joining_date,
+                    'villege' => $request->villege,
+                    'district' => $request->district,
+                    'town' => $request->taluka,
+                    'postcode' => $request->postcode,
+                    'status' => $request->status ? $request->status : "Guest",
+                    'last_exam' => $request->last_exam ? $request->last_exam : "Null",
+                    // 'father_name' => $request->last_exam,
+                    'current_college_year' => $request->current_college_year ? $request->current_college_year: "Null",
+                    'college_name' => $request->college_name ? $request->college_name : "Null",
+                    'college_address' => $request->college_address ? $request->college_address : "Null",
+                    'created_at' => date('Y-m-d'),
+                ]);
 
-            return back()->with('success', "Student Add Successfuly");
+                return back()->with('success', 'Student create successfully!');
+            }
+            
         }
     }
 
     function showAddStudent(){
-        return view('admin_views.add-student');
+        $student = "";
+        $opType = "new";
+
+        return view('admin_views.add-student', ["student" => $student, "opType" => $opType]);
     }
 
     //Get Employee List
@@ -88,7 +125,24 @@ class StudentController extends Controller
         $students = DB::table('students')->orderBy('id', 'desc')->where('status', '=', 'Student')->get();
         $count = $students->count();
         $i=1;
-
+        // dd($students);
         return view('admin_views.student-list', ['students' => $students, 'count' => $count, 'i' => $i]);
+    }
+
+    function editStudent($sid){
+        $student = DB::table("students")->find($sid);
+        // dd($student);
+        $opType = "edit";
+        return view("admin_views.add-student", ["student" => $student, 'opType' => $opType]);
+    }
+
+    function deleteStudent($sid){
+        // dd($sid);
+        if($sid){
+            DB::table("students")->delete($sid);
+
+            return back()->with('success', 'Student delete successfully!');
+        }
+        return back()->with('error', 'Somthing went wrong while deleting student create successfully!');
     }
 }
