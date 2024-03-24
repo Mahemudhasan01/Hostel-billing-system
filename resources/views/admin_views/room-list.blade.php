@@ -13,6 +13,17 @@
                 <div class="message"></div>
             </div>
 
+            @if(session('success'))
+                <div id="success-message" class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if(session('error'))
+                <div id="error-message" class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4>Room Information</h4>
@@ -38,9 +49,9 @@
                                     <td>{{ $item->room }}</td>
                                     <td>{{ $item->description }}</td>
                                     <td>{{ $item->fees }}</td>
-                                    <td><a href="" class="btn btn-primary btn-xs"><span
+                                    <td><a href="{{route('edit.room', $item->id)}}" class="btn btn-primary btn-xs"><span
                                                 class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                        <a data-customer-id="" class="btn btn-danger btn-xs delete-customer">
+                                        <a href="{{route('delete.room', $item->id)}}" onclick="return confirmDelete('{{ $item->id }}', 'Room')" class="btn btn-danger btn-xs">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                     </td>
                                 </tr>
@@ -72,3 +83,6 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
         @endsection
+        <script>
+             
+        </script>

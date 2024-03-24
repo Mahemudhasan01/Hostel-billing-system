@@ -12,9 +12,11 @@
 	<div class="col-md-4 col-md-offset-4">
 		<div class="panel panel-default login-panel">
 		  	<div class="panel-heading panel-login">
-		  		<h1 class="text-center">
-					<img src="{{asset('system-img/logo.png')}}" class="img-responsive">
-				</h1>
+		  		<h3 class="text-center">
+					{{-- <img src="{{asset('system-img/logo.png')}}" class="img-responsive"> --}}
+					Mashayakh Hostel
+
+				</h3>
 		    	
 		 	</div>
 		  	<div class="panel-body">

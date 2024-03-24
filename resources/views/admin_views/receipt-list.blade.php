@@ -125,6 +125,8 @@
                                                 class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                         <a data-customer-id="" class="btn btn-danger btn-xs delete-customer">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                        <a href="" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                     </td>
                                 </tr>
                             @endforeach

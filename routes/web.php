@@ -25,29 +25,27 @@ Route::get("/",[adminController::class, 'showLogin'])->name('show.login');
 Route::post("/submitLogin", [adminController::class, 'submitLogin'])->name("submit.login");
 Route::get("/logout", [adminController::class, 'logout'])->name("logout");
 // Addmin Controller
-Route::group(['middleware' => 'checksession', 'prefix' => '/'], function(){
+Route::group(['middleware' => 'checksession', 'prefix' => '/receipts'], function(){
     Route::get("/deshboard",[adminController::class, 'showDeshboard'])->name('show.deshboard');
-    Route::get("paidreceipt/",[adminController::class, 'showPaidReceipt'])->name('show.paid.receipt');
-    Route::get("receipt/", [adminController::class, 'showAllReceipts'])->name('show.all.receipt');
     // Room's Route
-    Route::get("rooms/",[adminController::class, 'showRooms'])->name('show.rooms');
-    Route::get("manageroom/",[adminController::class, 'showManageRoom'])->name('show.manage.room');
-    
 });
 
 //Student Controller
 Route::group(['middleware' => 'checksession', 'prefix' => '/admin'], function(){
     // Student Route
-    Route::post('addstudent/', [StudentController::class, 'addStudent'])->name('add.student');
-    // Route::get('students/', [StudentController::class, 'showStudentList'])->name('show.student.list');
-    Route::get("addstudent/",[StudentController::class, 'showAddStudent'])->name('show.add.student');
-    Route::get("managestudent/",[StudentController::class, 'showManageStudent'])->name('show.manage.student');
-    Route::get("manageemployee/",[StudentController::class, 'showManageEmployee'])->name('show.manage.employee');
+    Route::post('addstudent/{sid}', [StudentController::class, 'addStudent'])->name('add.student');
+    Route::get("showStudent/",[StudentController::class, 'showAddStudent'])->name('show.add.student');
+    Route::get("managestudent/{romid?}",[StudentController::class, 'showManageStudent'])->name('show.manage.student');
+    Route::get("manageemployee/{romid?}",[StudentController::class, 'showManageEmployee'])->name('show.manage.employee');
+    Route::get("editStudent/{sid}", [StudentController::class, 'editStudent'])->name("edit.student");
+    Route::get("deleteStudent/{sid}", [StudentController::class, 'deleteStudent'])->name("delete.student");
 
     // Room's Route
     Route::get("rooms/",[RoomController::class, 'showRooms'])->name('show.rooms');
-    Route::post('addroom/', [RoomController::class, 'addRoom'])->name('add.room');
+    Route::post('addroom/{editId}', [RoomController::class, 'addRoom'])->name('add.room');
     Route::get("manageroom/",[RoomController::class, 'showManageRoom'])->name('show.manage.room');
+    Route::get("editRomm/{id}", [RoomController::class, 'editRoom'])->name('edit.room');
+    Route::get("deleteRoom/{id}", [RoomController::class, 'deleteRoom'])->name('delete.room');
 
     //Receipt Routes
     Route::get("createreceipt/",[ReceiptController::class, 'showCreateReceipt'])->name('show.Create.Receipt');
@@ -58,7 +56,14 @@ Route::group(['middleware' => 'checksession', 'prefix' => '/admin'], function(){
     // Route::get('existingstudent/', [ReceiptController::class, 'getExistingStudent'])->name('get.existing.student');
     Route::post('insertreceipt/', [ReceiptController::class, 'insertNewReceipt'])->name('insert.new.receipt');
     Route::get('pdf/', [ReceiptController::class, 'generatPDF']);
+    Route::get("paidreceipt/",[adminController::class, 'showPaidReceipt'])->name('show.paid.receipt');
+    Route::get("receipt/", [adminController::class, 'showAllReceipts'])->name('show.all.receipt');
 
     // AJAX Apis
     Route::get("/findReceiptByRoomNo", [ReceiptController::class, 'getReceiptsByRoomNo'])->name('get.receiptsbyRoom');
+
+    //Lefts Students 
+    Route::get("leftStudent/", [StudentController::class, 'showLeftStudent'])->name("show.lefts");
+    Route::get("showLeftsDtls/{sid}", [StudentController::class, 'showLeftStudentDtl'])->name("left.student");
+    Route::post("pushInLeftList/{sid}", [StudentController::class, 'pushInLeftList'])->name("make.left");
 });

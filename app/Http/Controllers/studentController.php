@@ -10,9 +10,8 @@ use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
-    function addStudent($sid, $isEmp =0 , Request $request)
+    function addStudent($sid, Request $request)
     {
-        dd($isEmp);
         $mes = Validator::make(
             $request->all(),
             [
@@ -34,9 +33,8 @@ class StudentController extends Controller
             // Failed
             return back()->with('error', 'Please fill all required field!.');
         } else {
-            // dd($sid);
+            // Update Student
             if($sid != 0){
-                // Pass  
                 if($request->hasFile('photo')){
                     $imageName = time() . '.' . $request->photo->extension();
                     // Public Folder
@@ -61,6 +59,7 @@ class StudentController extends Controller
                     'postcode' => $request->postcode,
                     'status' => $request->status ? $request->status : "Guest",
                     'last_exam' => $request->last_exam ? $request->last_exam : "Null",
+                    'room_no' => $request->room_no ? $request->room_no : "Null",
                     // 'father_name' => $request->last_exam,
                     'current_college_year' => $request->current_college_year ? $request->current_college_year: "Null",
                     'college_name' => $request->college_name ? $request->college_name : "Null",
@@ -92,6 +91,7 @@ class StudentController extends Controller
                     'postcode' => $request->postcode,
                     'status' => $request->status ? $request->status : "Guest",
                     'last_exam' => $request->last_exam ? $request->last_exam : "Null",
+                    'room_no' => $request->room_no ? $request->room_no : "Null",
                     // 'father_name' => $request->last_exam,
                     'current_college_year' => $request->current_college_year ? $request->current_college_year: "Null",
                     'college_name' => $request->college_name ? $request->college_name : "Null",
@@ -106,34 +106,58 @@ class StudentController extends Controller
     }
 
     function showAddStudent(){
+        $rooms = DB::table("rooms")->get();
         $student = "";
         $opType = "new";
 
-        return view('admin_views.add-student', ["student" => $student, "opType" => $opType]);
+        return view('admin_views.add-student', ["student" => $student, "opType" => $opType, "rooms" => $rooms]);
     }
 
     //Get Employee List
-    function showManageEmployee(){
-        $employee = DB::table('students')->orderBy('id', 'desc')->where('status', '=', 'Employee')->orWhere('status', '=', 'Other')->get(); 
-        $count = $employee->count();
-        $i=1;
-        return view('admin_views.employee-list', ['employee' => $employee, 'count' => $count, 'i' => $i]);
+    function showManageEmployee($roomId = 0){
+        // dd($roomId);
+        if($roomId != 0){
+            $employee = DB::table('students')->orderBy('id', 'desc')->where('status', '=', 'Employee')->where('room_no', '=', $roomId)->get(); 
+            
+            $count = $employee->count();
+            $i=1;
+            return response()->json([$employee, $count, $i]);
+        }else{
+            $employee = DB::table('students')->orderBy('id', 'desc')->where('status', '=', 'Employee')->orWhere('status', '=', 'Guest')->get(); 
+            $rooms = DB::table("rooms")->get();
+
+            $count = $employee->count();
+            $i=1;
+            return view('admin_views.employee-list', ['employee' => $employee, 'count' => $count, 'i' => $i, 'rooms' => $rooms]);
+        }
     }
 
     //Get Student List
-    function showManageStudent(){
-        $students = DB::table('students')->orderBy('id', 'desc')->where('status', '=', 'Student')->get();
-        $count = $students->count();
-        $i=1;
-        // dd($students);
-        return view('admin_views.student-list', ['students' => $students, 'count' => $count, 'i' => $i]);
+    function showManageStudent($roomId=0){
+        // dd($roomId);
+        if($roomId){
+            $students = DB::table('students')->orderBy('id', 'desc')->where('status', '=', 'Student')->where('room_no', '=', $roomId)->get();
+            $count = $students->count();
+            $i=1;
+            
+            return response()->json([$students, $count, $i]);
+            //return view('admin_views.student-list', ['students' => $students, 'count' => $count, 'i' => $i, 'rooms' => $rooms]);
+        }else{
+            $students = DB::table('students')->orderBy('id', 'desc')->where('status', '=', 'Student')->get();
+            $rooms = DB::table('rooms')->get();
+            $count = $students->count();
+            $i=1;
+            
+            return view('admin_views.student-list', ['students' => $students, 'count' => $count, 'i' => $i, 'rooms' => $rooms]);
+        }
     }
 
     function editStudent($sid){
         $student = DB::table("students")->find($sid);
-        // dd($student);
+        $rooms = DB::table("rooms")->get();
+        
         $opType = "edit";
-        return view("admin_views.add-student", ["student" => $student, 'opType' => $opType]);
+        return view("admin_views.add-student", ["student" => $student, 'opType' => $opType, "rooms" => $rooms]);
     }
 
     function deleteStudent($sid){
@@ -144,5 +168,39 @@ class StudentController extends Controller
             return back()->with('success', 'Student delete successfully!');
         }
         return back()->with('error', 'Somthing went wrong while deleting student create successfully!');
+    }
+
+    function showLeftStudent(){
+        $leftStudent = DB::table('students')->orderBy('id', 'desc')->where('status', '=', 'Left')->get(); 
+            $rooms = DB::table("rooms")->get();
+
+            $count = $leftStudent->count();
+            $i=1;
+            return view('admin_views.lefts-list', ['leftStudents' => $leftStudent, 'count' => $count, 'i' => $i, 'rooms' => $rooms]);
+    }
+
+    function showLeftStudentDtl($id){
+        $student = DB::table('students')->find($id);
+        $rooms = DB::table("rooms")->get();
+        $i=1;
+        $opType = "edit";
+        // dd($student);
+        return view('admin_views.remarkOnLeftStudents', ['student' => $student, 'i' => $i, 'rooms' => $rooms, 'opType' => $opType]);
+    }
+
+    function pushInLeftList($id, Request $request){
+        
+        DB::table("students")
+            ->where('id', '=', $id)->update([
+            'status' => 'left',
+            'joining_date' => date('d-m-Y h:i'),
+            ]);
+        $students = DB::table('students')->orderBy('id', 'desc')->where('status', '=', 'Student')->get();
+        $rooms = DB::table('rooms')->get();
+        $count = $students->count();
+        $i=1;
+
+        // return view('admin_views.student-list', ['students' => $students, 'count' => $count, 'i' => $i, 'rooms' => $rooms])->with("success", "Student Left Successfully");
+        return redirect()->route("show.manage.student")->with("worning", "Student Left Successfully");
     }
 }

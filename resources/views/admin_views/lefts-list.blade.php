@@ -8,7 +8,7 @@ background-color: #f5f5f5;
 padding: 1px 0px 0px 10px;
 box-shadow:0 7px 8px -5px #000;
 ">
-  <h3 style="color:Green">Student List</h3>
+  <h3 style="color:Green">Lefts List</h3>
   {{-- <hr>   --}}
 </div>
     <div class="row">
@@ -39,15 +39,10 @@ box-shadow:0 7px 8px -5px #000;
                     {{ session('error') }}
                 </div>
             @endif
-            @if(session('worning'))
-                <div id="error-worning" class="alert alert-worning">
-                    {{ session('worning') }}
-                </div>
-            @endif
             
             <div class="panel panel-default" style="margin-top: 15px;">
                 <div class="panel-heading">
-                    <h4>Number of Students is: <b> {{ $count }} </b></h4>
+                    <h4>Number of Left Students is: <b> {{ $count }} </b></h4>
                 </div>
                 <div class="panel-body form-group form-group-sm">
                     <table class="table table-striped table-hover table-bordered" id="data-table">
@@ -62,15 +57,15 @@ box-shadow:0 7px 8px -5px #000;
                                 <th>College Name</th>
                                 <th>Number</th>
                                 <th>Parents Number</th>
-                                <th>Joinin Date</th>
-                                <th width="9%">Action</th>
+                                <th>Left Date</th>
+                                <th>Action</th>
 
                             </tr>
                         </thead>
                         <tbody id="bodyStudentData">
 
-                            @foreach ($students as $item)
-                                <tr>
+                            @foreach ($leftStudents as $item)
+                                <tr style="background: yellow">
                                     <td>{{ $i++ }}</td>
                                     {{-- <td> <img src="{{  url($item->photo) }}" alt="" height="30px" width="30px"> </td> --}}
                                     <td>
@@ -84,12 +79,10 @@ box-shadow:0 7px 8px -5px #000;
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->father_phone }}</td>
                                     <td>{{ $item->joining_date }}</td>
-                                    <td width="30px"><a href="{{ route("edit.student", $item->id, 0)}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Edit The Student" ><span
+                                    <td><a href="{{ route("edit.student", $item->id, 0)}}" class="btn btn-primary btn-xs"><span
                                                 class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                        <a href="{{ route("delete.student", $item->id, 0) }}"  onclick="return confirmDelete('{{ $item->id }}', 'Student')" data-toggle="tooltip" data-placement="top" title="Delete The Student" class="btn btn-danger btn-xs">
+                                        <a href="{{ route("delete.student", $item->id, 0) }}"  onclick="return confirmDelete('{{ $item->id }}', 'Student')"  class="btn btn-danger btn-xs">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-                                        <a href="{{ route("left.student", $item->id, 0) }}"  onclick="return confirmDelete('{{ $item->id }}', 'Student')" data-toggle="tooltip" data-placement="top" title="Left The Student" class="btn btn-warning btn-xs">
-                                                <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span></a>
                                     </td>
                                 </tr>
                             @endforeach

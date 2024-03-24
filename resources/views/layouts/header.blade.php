@@ -30,5 +30,5 @@
 
 </head>
 
-<body>
+<body background="{{ asset("images/front_logo.jpg") }}" style="background-repeat: no-repeat; background-position: center; background-color: black">
 	<div class="container">

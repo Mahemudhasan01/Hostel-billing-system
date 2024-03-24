@@ -4,24 +4,26 @@
 * Version: 1.1.1	                                                               *
 * Author:  James Brandon                                    				   *
 *******************************************************************************/
+function selectStudetnStatus(option, studentData){
 
-
-$(document).ready(function () {
-
-	$('#slct').change(function () {
-
-		var value = $(this).val();
+		var value = ($("#slct").val() != "") ? $("#slct").val() : option;
 		var toAppend = '';
+
+		if(value == "Other"){
+			toAppend = "";
+			toAppend = $("#status").html(toAppend); return;
+		}
 		
 		if (value == "Student") {
-			toAppend = "<div class='panel panel-default'> <div class='panel-heading'> <h4>Student info</h4> </div> <div class='panel-body form-group form-group-sm'> <div class='row'> <div class='col-xs-6'> <div class='form-group'> <input type='text' class='form-control margin-bottom required' name='last_exam' id='Student_name_ship' placeholder='Last Exam Name' tabindex='9' </div <div class='form-group'> <input type='text' class='form-control margin-bottom' name='college_name' id='Student_address_2_ship' placeholder='Enter College Name' tabindex='11'> </div><div class='form-group no-margin-bottom'><input type='text' class='form-control required' disabled name='fees' id='Student_county_ship' placeholder='Enter college Address' value='Hostel Fees ₹40/day' tabindex='13'></div> </div> <div class='col-xs-6'><div class='form-group'> <input type='text' class='form-control margin-bottom required' name='current_college_year' id='Student_address_1_ship' placeholder='Current College Year' tabindex='10'></div> <div class='form-group'> <input type='text' class='form-control margin-bottom required' name='college_address' id='Student_town_ship' placeholder='College Address' tabindex='12'> </div> <div class='form-group no-margin-bottom'> <input type='text' class='form-control required' name='postcode' id='Student_postcode_ship' placeholder='Postcode' tabindex='14'> </div> </div> </div> </div> </div>"; $("#status").html(toAppend); return;
+			toAppend = "<div class='panel panel-default'> <div class='panel-heading'> <h4>Student info</h4> </div> <div class='panel-body form-group form-group-sm'> <div class='row'> <div class='col-xs-6'> <div class='form-group'> <input type='text' class='form-control margin-bottom required' name='last_exam'  value='" + (studentData ? studentData.last_exam : '') + "'  id='Student_name_ship' placeholder='Last Exam Name' tabindex='9' required> </div> <div class='form-group'> <input type='text' class='form-control margin-bottom' name='college_name' id='Student_address_2_ship' value='" + (studentData ? studentData.college_name : '') + "' placeholder='Enter College Name' tabindex='11' required> </div><div class='form-group no-margin-bottom'><input type='text' class='form-control required' disabled name='fees' id='Student_county_ship' placeholder='Enter college Address' value='Hostel Fees ₹1200/Month' tabindex='13' required></div> </div> <div class='col-xs-6'><div class='form-group'> <input type='text' class='form-control margin-bottom required' name='current_college_year' value='" + (studentData ? studentData.current_college_year : '') + "' id='Student_address_1_ship' placeholder='Current College Year' tabindex='10' required></div> <div class='form-group'> <input type='text' class='form-control margin-bottom required' name='college_address' id='Student_town_ship' value='" + (studentData ? studentData.college_address : '') + "' placeholder='College Address' tabindex='12' required> </div> <div class='form-group no-margin-bottom'></div> </div> </div> </div> </div>"; $("#status").html(toAppend); return;
 
 		}
 		if (value == "Employee") {
-			toAppend = "<div class='panel panel-default'> <div class='panel-heading'> <h4>Employee info</h4> </div> <div class='panel-body form-group form-group-sm'> <div class='row'> <div class='col-xs-6'> <div class='form-group'> <input type='text' class='form-control margin-bottom required' name='last_exam' id='Student_name_ship' placeholder='Previous Company' tabindex='9' </div <div class='form-group'> <input type='text' class='form-control margin-bottom' name='college_name' id='Student_address_2_ship' placeholder='Enter Current Company name' tabindex='11'> </div><div class='form-group no-margin-bottom'><input type='text' class='form-control required' disabled name='fees' id='Student_county_ship' placeholder='Enter Company Address' value='Hostel Fees ₹50/day' tabindex='13'></div> </div> <div class='col-xs-6'><div class='form-group'> <input type='text' class='form-control margin-bottom required' name='current_college_year' id='Student_address_1_ship' placeholder='Enter Job Role' tabindex='10'></div> <div class='form-group'> <input type='text' class='form-control margin-bottom required' name='college_address' id='Student_town_ship' placeholder='Company Address' tabindex='12'> </div> <div class='form-group no-margin-bottom'> <input type='text' class='form-control required' name='postcode' id='Student_postcode_ship' placeholder='Postcode' tabindex='14'> </div> </div> </div> </div> </div>"; $("#status").html(toAppend); return;
+			toAppend = "<div class='panel panel-default'> <div class='panel-heading'> <h4>Employee info</h4> </div> <div class='panel-body form-group form-group-sm'> <div class='row'> <div class='col-xs-6'> <div class='form-group'> <input type='text' class='form-control margin-bottom required' name='last_exam' value='" + (studentData ? studentData.last_exam : '') + "' id='Student_name_ship' placeholder='Previous Company' tabindex='9' </div <div class='form-group'> <input type='text' class='form-control margin-bottom' name='college_name' id='Student_address_2_ship' value='" + (studentData ? studentData.college_name : '') + "' placeholder='Enter Current Company name' tabindex='11' required> </div><div class='form-group no-margin-bottom'><input type='text' class='form-control required' disabled name='fees' id='Student_county_ship' placeholder='Enter Company Address' value='Hostel Fees ₹1200/Month' tabindex='13' required></div> </div> <div class='col-xs-6'><div class='form-group'> <input type='text' class='form-control margin-bottom required' name='current_college_year' value='" + (studentData ? studentData.current_college_year : '') + "' id='Student_address_1_ship' placeholder='Enter Job Role' tabindex='10' required></div> <div class='form-group'> <input type='text' class='form-control margin-bottom required' name='college_address' id='Student_town_ship' value='" + (studentData ? studentData.college_address : '') + "' placeholder='Company Address' tabindex='12' required> </div> <div class='form-group no-margin-bottom'>  </div> </div> </div> </div> </div>"; $("#status").html(toAppend); return;
 		}
+}
 
-	});
+$(document).ready(function () {
 
 	// Invoice Type
 	$('#invoice_type').change(function () {
@@ -1195,3 +1197,104 @@ $(document).ready(function () {
 		}
 	});
 });
+function confirmDelete(id, name) {
+	if (confirm('Are you sure, you want to delete this ' + name + '?')) {
+		return true;
+	} else {
+		// If user cancels, do nothing
+		return false;
+	}
+}
+
+function validatePhoneNo(number){
+	var fatherNumber = $("#fatherNumber").val();
+	var phoneNumber = $("#phoneNumber").val();
+
+	if(fatherNumber == phoneNumber){
+		$("#phoneNumberError").html("Father's number and student number should be different.");
+	}else{
+		$("#phoneNumberError").html("");
+	}
+}
+
+function getRoomWiseStudent(){
+	var selectedRoom = $("#selctRoom").val();
+	var selectedEmpRoom = $("#selctEmpRoom").val();
+
+	if(selectedRoom != undefined && selectedRoom != ""){
+		//For Studnet
+		var url = "managestudent/" + selectedRoom;
+		var tableBody = $('#bodyStudentData');
+		var dropDown = "#selctRoom";
+		var returnUrl = "managestudent";
+		var editUrl = "deleteStudent/";
+		var deleteUrl = "editStudent/";
+	}else{
+		var url = "manageemployee/" + selectedEmpRoom;
+		var tableBody = $('#bodyEmployeeData');
+		var dropDown = '#selctEmpRoom';
+		var returnUrl = "manageemployee";
+		var editUrl = "deleteStudent/";
+		var deleteUrl = "editStudent/";
+	}
+
+	if(selectedRoom || selectedEmpRoom){
+			$.ajax({
+				url: url, 
+				type: "GET",
+				async: false,
+				success: function(response){
+					console.log(response);
+					if (response && response.length > 0) {
+						// Get the selected value
+						var selectedValue = $(dropDown).val();
+
+						// Remove the "Please Select" option if it exists
+						$(dropDown + ' option[value=""]').remove();
+
+						// Add the "Return Home" option if it's not already added
+						if ($(dropDown + ' option[value="home"]').length == 0) {
+							$(dropDown).append($('<option>').attr('value', 'home').text('Return Home'));
+						}
+
+						//Table Data
+						// tableBody = $('#bodyStudentData');
+						tableBody.empty(); // Clear existing rows
+						
+						// Iterate over each item in the response
+						response[0].forEach(function(item, index) {
+							var newRow = $('<tr>');
+							newRow.append($('<td>').text(index + 1));
+							
+							// Append image cell
+							if (item.photo) {
+								newRow.append($('<td>').html('<img src="' + item.photo + '" style="width: 100px; height: 100px; border-radius: 50%;" />'));
+							} else {
+								newRow.append($('<td>').text('No Photo'));
+							}
+							
+							// Append other cells
+							newRow.append($('<td>').text(item.name));
+							newRow.append($('<td>').text(item.villege));
+							newRow.append($('<td>').text(item.town));
+							newRow.append($('<td>').text(item.college_name));
+							newRow.append($('<td>').text(item.phone));
+							newRow.append($('<td>').text(item.father_phone));
+							newRow.append($('<td>').text(item.joining_date));
+							
+							// Append action buttons
+							var actionCell = $('<td>');
+							actionCell.append('<a href="editStudent/'+ item.id+'" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>');
+							actionCell.append('<a href="deleteStudent/'+ item.id+'" onclick="return confirmDelete(' + item.id + ', \'Student\')" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>');
+							newRow.append(actionCell);
+							
+							$(tableBody).append(newRow);
+						});
+					}
+				}
+		});
+	}else{
+		window.location.href = returnUrl;
+	}
+	// return false;
+}

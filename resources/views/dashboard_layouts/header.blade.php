@@ -9,6 +9,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -39,8 +40,12 @@
     <link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    {{-- <link rel="stylesheet" href="/resources/demos/style.css"> --}}
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 </head>
 
 <body class="hold-transition skin-green sidebar-mini">
@@ -54,7 +59,7 @@
                 <!--mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>IN</b>MS</span>
                 <!--logo for regular state and mobile devices -->
-                <span style="text-decoration:none;" class="logo-lg"><b>Invoice</b> System</span>
+                <span style="text-decoration:none;" class="logo-lg"><b>Mashayakh </b> Hostel</span>
             </a>
 
             <!-- Header Navbar -->
@@ -72,7 +77,7 @@
                             <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
-                                <img width="150px" src="{{asset("images/1686740015.jpg")}}" class="user-image"
+                                <img width="150px" src="{{asset("images/2022-06-05.jpg")}}" class="user-image"
                                     alt="User Image">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs"></span>
@@ -149,9 +154,11 @@
                             <li><a href="{{ route('show.add.student') }}"><i class="fa fa-user-plus"></i>Add
                                     Student</a></li>
                             <li><a href="{{ route('show.manage.student') }}"><i class="fa fa-cog"></i>Manage
-                                    Student</a></li>
-                            <li><a href="{{ route('show.manage.employee') }}"><i class="fa fa-cog"></i>Employee
-                                    Student</a></li>
+                                    Students</a></li>
+                            <li><a href="{{ route('show.manage.employee') }}"><i class="fa fa-cog"></i>Manage 
+                                Employees</a></li>
+                            <li><a href="{{ route('show.lefts') }}"><i class="fa-solid fa-left"></i>Manage 
+                                Lefts </a></li>
                         </ul>
                     </li>
 

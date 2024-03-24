@@ -18,7 +18,7 @@
             {{ session('error') }}
         </div>
     @endif
-    <form method="post" action="{{ route('add.student',isset($student->id) ? $student->id : 0 )}}" id="create_Student" enctype="multipart/form-data">
+    <form method="post" action="{{ route('make.left',isset($student->id) ? $student->id : 0 )}}" id="create_Student" enctype="multipart/form-data">
         @csrf
         @foreach ($errors->all() as $error)
             <li style="color: green; font-weight: bold;">{{ $error }}</li>
@@ -73,13 +73,6 @@
                                         <span class="text-danger mt-0">{{ $errors->first('district') }}</span>
                                     @endif
                                 </div>
-                                {{-- <div class="form-group">
-                                    <input type="text" class="form-control copy-input required" name="postcode"
-                                        id="Student_postcode" placeholder="Postcode" tabindex="7">
-                                    @if ($errors->has('postcode'))
-                                        <span class="text-danger mt-0">{{ $errors->first('postcode') }}</span>
-                                    @endif
-                                </div> --}}
                                 <div class="form-group no-margin-bottom">
                                     <input type="text" class="form-control required" name="father_phone"
                                         id="fatherNumber" onblur="validatePhoneNo(this)" maxlength="10" value="{{ isset($student->father_phone) ? $student->father_phone : '' }}" placeholder="Father Phone Number" tabindex="8" required>
@@ -89,15 +82,6 @@
                                 </div>
                             </div>
                             <div class="col-xs-6">
-                                {{-- <div class="input-group float-right margin-bottom">
-                                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                    <input type="email" class="form-control copy-input required" name="fees"
-                                        id="Student_email" placeholder="Email" aria-describedby="sizing-addon1"
-                                        tabindex="2">
-                                    @if ($errors->has('email'))
-                                        <span class="text-danger">{{ $errors->first('email') }}</span>
-                                    @endif
-                                </div> --}}
                                 <div class="form-group">
                                     <input type="text" class="form-control  copy-input" name="taluka"
                                         id="Student_address_2" placeholder="Taluka" tabindex="4" value="{{ isset($student->town) ? $student->town : '' }}" required>
@@ -156,54 +140,12 @@
                     {{-- Jquery Data from script.js file --}}
                 </div>
                 <!-- Student Info -->
-
-                {{-- <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4>Student info</h4>
-                    </div>
-                    <div class="panel-body form-group form-group-sm">
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control margin-bottom required" name="last_exam"
-                                        id="Student_name_ship" placeholder="Last Exam Name" tabindex="9">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control margin-bottom" name="college_name"
-                                        id="Student_address_2_ship" placeholder="Enter College Name" tabindex="11">
-                                </div>
-
-                                <div class="form-group no-margin-bottom">
-                                    <input type="text" class="form-control required" disabled name="college_address"
-                                        id="Student_county_ship" placeholder="Enter college Address"
-                                        value="Hostel Fees ₹40/day" tabindex="13">
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control margin-bottom required"
-                                        name="current_college_year" id="Student_address_1_ship"
-                                        placeholder="Current College Year" tabindex="10">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control margin-bottom required"
-                                        name="Student_town_ship" id="Student_town_ship" placeholder="College Address"
-                                        tabindex="12">
-                                </div>
-                                <div class="form-group no-margin-bottom">
-                                    <input type="text" class="form-control required" name="Student_postcode_ship"
-                                        id="Student_postcode_ship" placeholder="Postcode" tabindex="14">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12 margin-top btn-group">
-                <input type="submit" id="action_create_Student" class="btn btn-success float-right"
-                    value=" {{ isset($student->status) ? 'Update Student' : 'Create Student' }}  " data-loading-text="Creating...">
+                <input type="submit" id="action_create_Student" style="color: black; font-weight: bold" class="btn btn-warning float-right"
+                    value=" Left The Student " data-loading-text="Creating...">
             </div>
         </div>
     </form>

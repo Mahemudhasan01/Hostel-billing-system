@@ -1,18 +1,42 @@
 @extends('dashboard_layouts.main')
 
 @section('main-container')
-    <h1>Employees List</h1>
-    <hr>
+<div style="    height: 66px;
+width: 100%;
+border-radius: 10px;
+background-color: #f5f5f5;
+padding: 1px 0px 0px 10px;
+box-shadow:0 7px 8px -5px #000;
+">
+  <h3 style="color:Green">Employee List</h3>
 
     <div class="row">
-
+        <div class="col-sm-3" style="margin-top: 20px;">
+            <label>Select Room</label>
+            <select class="form-control" name="selctEmpRoom" id="selctEmpRoom" placeholder=""
+            data-date-format="" onchange="return getRoomWiseStudent()">
+                  <option value="">Select Room</option>
+                  @foreach ($rooms as $room)
+                    <option value="{{$room->id}}">{{$room->room}}</option>
+                  @endforeach
+            </select>
+        </div>
         <div class="col-xs-12">
             <div id="response" class="alert alert-success" style="display:none;">
                 <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <div class="message"></div>
             </div>
-
-            <div class="panel panel-default">
+            @if(session('success'))
+            <div id="success-message" class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+            @if(session('error'))
+                <div id="error-message" class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+            <div class="panel panel-default"  style="margin-top: 15px;">
                 <div class="panel-heading">
                     <h4>Number of Employees is: <b> {{ $count }} </b></h4>
                 </div>
@@ -22,6 +46,7 @@
                             <tr>
 
                                 <th>No. </th>
+                                <th>Photo</th>
                                 <th>Name</th>
                                 <th>Employee Number</th>
                                 <th>Parents Number</th>
@@ -29,16 +54,19 @@
                                 <th>Taluko</th>
                                 <th>Company Name</th>
                                 <th>Joinin Date</th>
-                                <th>Status</th>
                                 <th>Action</th>
 
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="bodyEmployeeData">
 
                             @foreach ($employee as $item)
                                 <tr>
                                     <td>{{ $i++ }}</td>
+                                    <td>
+                                        <img src="{{ asset($item->photo) }}"
+                                            style="width: 100px; height: 100px; border-radius: 50%"; />
+                                    </td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->father_phone }}</td>
@@ -46,10 +74,9 @@
                                     <td>{{ $item->town }}</td>
                                     <td>{{ $item->college_name }}</td>
                                     <td>{{ $item->joining_date }}</td>
-                                    <td>{{ $item->status }}</td>
-                                    <td><a href="" class="btn btn-primary btn-xs"><span
+                                    <td><a href=" {{ route('edit.student', $item->id, 1) }} " class="btn btn-primary btn-xs"><span
                                                 class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                        <a data-customer-id="" class="btn btn-danger btn-xs delete-customer">
+                                        <a href="{{ route("delete.student", $item->id, 1) }}"  onclick="return confirmDelete('{{ $item->id }}', 'Employee')"  class="btn btn-danger btn-xs">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                                     </td>
                                 </tr>

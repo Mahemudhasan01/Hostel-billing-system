@@ -36,14 +36,19 @@ class adminController extends Controller
         $total_room = DB::table('rooms')->get('id');
         $total_room = $total_room->count();
 
-        $total_student = DB::table('students')->get('id');
+        $total_student = DB::table('students')->where('status', '=', 'Student')->get('id');
         $total_student = $total_student->count();
+
+        $total_employee = DB::table('students')->where('status', '=', 'Employee')->get('id');
+        $total_employee = $total_employee->count();
 
         $total_paid_bill = DB::table('receipts')->get('status')->where('status', '=', 'paid');
         $total_paid_bill = $total_paid_bill->count();
 
+        $total_lefts = DB::table('students')->where('status', '=', 'left')->get('id');
+        $total_lefts = $total_lefts->count();
 
-        return view('admin_views.dashboard', ['total_paid_bill' => $total_paid_bill, 'total_student' => $total_student, 'total_revenue' => $total_revenue, 'total_receipts' => $total_receipts, 'total_room' => $total_room]);
+        return view('admin_views.dashboard', ['total_paid_bill' => $total_paid_bill, 'total_student' => $total_student, 'total_revenue' => $total_revenue, 'total_receipts' => $total_receipts, 'total_room' => $total_room, 'total_employee' => $total_employee, 'total_lefts' => $total_lefts]);
     }
 
     function showPaidReceipt(){

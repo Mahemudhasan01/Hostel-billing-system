@@ -117,38 +117,10 @@ class ReceiptController extends Controller
             // Failed
             return back()->with('errors', $mes->errors());
         } else {
-            //Pass
+            //Create Receipt
             $total_month = ($request->end_month - $request->start_month) + 1;
-            DB::table('receipts')->insert([
-                'student_id' => $request->student_id,
-                'receipt' => $request->invoice_id,
-                'email' => "Null",
-                'start_month' => $request->start_month,
-                'end_month' => $request->end_month,
-                'fees' => $request->room_fees,
-                'total_paid' => ($total_month * $request->room_fees),
-                'note' => $request->notes,
-                'status' => $request->invoice_status,
-                'total_months' => ($request->end_month - $request->start_month) + 1,
-                'created_at' => date('Y-m-d'),
-            ]);
-
-            // dd($request->student_name);
-
-            DB::table('store_students')->insert([
-                'name' => $request->student_name,
-                'villege' => $request->villege,
-                'district' => $request->district,
-                'status' => $request->status,
-                'room_no' => $request->room_name,
-                'receipt_no' => $request->invoice_id,
-                'phone' => $request->phone,
-                'created_at' =>  date('Y-m-d'),
-            ]);
 
             $data = date("d/m/Y");
-
-            // dd($request->end_month);
 
             $pdf = Pdf::loadView('admin_views.receiptPdf', [
                 'name' => $request->student_name,
@@ -164,6 +136,42 @@ class ReceiptController extends Controller
                 'fees' => $request->room_fees,
                 'total_paid' => ($total_month * $request->room_fees),
             ]);
+            // Save the PDF to a directory
+            $pdfPath = public_path('receiptsPDF'); // Change this path as per your requirement
+            if (!file_exists($pdfPath)) {
+                mkdir($pdfPath, 0777, true); // Create directory if it doesn't exist
+            }
+            $pdfFileName = $request->room_name . '' . $request->student_name . '-' .$request->invoice_id . '.pdf'; // Generate a unique filename
+            $pdf->save($pdfPath . '/' . $pdfFileName);
+
+            //Stored Receipt Data
+            DB::table('receipts')->insert([
+                'student_id' => $request->student_id,
+                'receipt' => $request->invoice_id,
+                'email' => "Null",
+                'start_month' => $request->start_month,
+                'end_month' => $request->end_month,
+                'fees' => $request->room_fees,
+                'total_paid' => ($total_month * $request->room_fees),
+                'note' => $request->notes,
+                'status' => $request->invoice_status,
+                'total_months' => ($request->end_month - $request->start_month) + 1,
+                'receiptPDF' => $pdfPath . '/' . $pdfFileName,
+                'created_at' => date('Y-m-d'),
+            ]);
+
+            //Stored Data
+            DB::table('store_students')->insert([
+                'name' => $request->student_name,
+                'villege' => $request->villege,
+                'district' => $request->district,
+                'status' => $request->status,
+                'room_no' => $request->room_name,
+                'receipt_no' => $request->invoice_id,
+                'phone' => $request->phone,
+                'created_at' =>  date('Y-m-d'),
+            ]);
+            
             return $pdf->download($request->room_name . '' . $request->student_name . '-' .$request->invoice_id . '.pdf');
 
             // return redirect()->back()->with('sucess', 'Receipt Create Successfuly');

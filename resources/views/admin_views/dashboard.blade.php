@@ -34,22 +34,20 @@
 
                 </div>
             </div>
-            <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
-                <div class="small-box bg-yellow">
+                <div class="small-box bg-olive">
                     <div class="inner">
-                        <h3></h3>
+                        <h3>{{$total_paid_bill}}</h3>
 
-                        <p>Pending Bills</p>
+                        <p>Paid Receipts</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-load-a"></i>
+                        <i class="ion ion-ios-paper"></i>
                     </div>
 
                 </div>
             </div>
-            <!-- ./col -->
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-red">
@@ -88,11 +86,24 @@
 
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
-                <div class="small-box bg-maroon">
+                <div class="small-box bg-teal">
                     <div class="inner">
                         <h3> {{$total_student}} </h3>
-
                         <p>Total Student</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-people"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-purple">
+                    <div class="inner">
+                        <h3> {{$total_employee}} </h3>
+
+                        <p>Total Employee</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-ios-people"></i>
@@ -100,17 +111,16 @@
 
                 </div>
             </div>
-
             <div class="col-lg-3 col-xs-6">
                 <!-- small box -->
-                <div class="small-box bg-olive">
+                <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>{{$total_paid_bill}}</h3>
+                        <h3>{{$total_lefts}}</h3>
 
-                        <p>Paid Receipts</p>
+                        <p>Total Lefts</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-ios-paper"></i>
+                        <i class="ion ion-load-a"></i>
                     </div>
 
                 </div>
